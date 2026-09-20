@@ -147,6 +147,21 @@ figure.wk figcaption .mono{color:var(--muted)}
 .about .tile h3{line-height:1.3;font-size:clamp(22px,2.4vw,30px)}
 .facts{display:grid;grid-template-columns:auto 1fr;gap:6px 20px;font-size:14px;margin-top:6px;padding-top:14px;border-top:1px solid var(--line-soft)}
 .facts .k{color:var(--muted);white-space:nowrap}
+/* contact form */
+form.inq{width:100%;max-width:760px;text-align:left;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:8px}
+form.inq .full{grid-column:1/-1}
+form.inq label{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted)}
+form.inq input,form.inq textarea{font:inherit;font-size:16px;color:var(--ink);background:var(--tile);border:1px solid var(--line);border-radius:12px;padding:13px 14px;width:100%}
+form.inq input:focus,form.inq textarea:focus{outline:2px solid var(--link);outline-offset:1px;border-color:transparent}
+form.inq textarea{min-height:120px;resize:vertical}
+form.inq .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+form.inq button{font:inherit;font-size:17px;font-weight:500;color:#fff;background:var(--link);border:0;border-radius:980px;padding:15px 28px;cursor:pointer;justify-self:start}
+form.inq button:disabled{opacity:.6;cursor:default}
+form.inq .msg{font-size:15px;line-height:1.5;color:var(--muted);align-self:center}
+form.inq .msg.ok{color:var(--ink);font-weight:500}
+form.inq .msg.err{color:#c0392b}
+.done{width:100%;max-width:760px;background:var(--bg-alt);border-radius:18px;padding:32px 28px;text-align:center;display:none;flex-direction:column;gap:8px}
+.done b{font-size:22px;letter-spacing:-.02em}
 /* contact */
 .contact-grid{max-width:900px;grid-template-columns:repeat(3,minmax(0,1fr))}
 .cbtn{display:block;border-radius:18px;padding:24px 20px;text-align:center;font-size:17px;font-weight:500;line-height:1.35;background:var(--bg-alt);color:var(--ink)}
@@ -169,7 +184,7 @@ footer .row b{color:var(--ink);font-weight:600}
 footer .links{display:flex;flex-wrap:wrap;gap:8px 24px}
 footer a{color:var(--muted)}
 @media (max-width:1068px){.g4,.g3,.docs,.flow,.trio{grid-template-columns:repeat(2,minmax(0,1fr))}.ops .wrap{grid-template-columns:repeat(2,minmax(0,1fr))}.about{grid-template-columns:1fr}.about .ph{min-height:260px}.hero .wrap{grid-template-columns:1fr}.hero .pic{aspect-ratio:16/10}.hero .pic img{object-position:center 25%}.doccap{grid-template-columns:1fr}}
-@media (max-width:734px){br.d{display:none}h2 .sub2{display:block;font-size:.72em;margin-top:6px}h2.xl{font-size:34px}.hero .pic{aspect-ratio:3/4}.hero .pic img{object-position:center 12%}.g2,.g3,.g4,.docs,.flow,.trio{grid-template-columns:1fr}.contact-grid{grid-template-columns:1fr!important}.tile,figure.wk,.hero .pic,.about .ph{border-radius:20px}nav.top .links{display:none}nav.top .brand .mono{display:none}.band{aspect-ratio:4/3}.band .cap{flex-direction:column;gap:4px}.hero .ctas{justify-content:flex-start}.ops .wrap{grid-template-columns:1fr 1fr;gap:16px}.op .v{font-size:17px}}
+@media (max-width:734px){form.inq{grid-template-columns:1fr}br.d{display:none}h2 .sub2{display:block;font-size:.72em;margin-top:6px}h2.xl{font-size:34px}.hero .pic{aspect-ratio:3/4}.hero .pic img{object-position:center 12%}.g2,.g3,.g4,.docs,.flow,.trio{grid-template-columns:1fr}.contact-grid{grid-template-columns:1fr!important}.tile,figure.wk,.hero .pic,.about .ph{border-radius:20px}nav.top .links{display:none}nav.top .brand .mono{display:none}.band{aspect-ratio:4/3}.band .cap{flex-direction:column;gap:4px}.hero .ctas{justify-content:flex-start}.ops .wrap{grid-template-columns:1fr 1fr;gap:16px}.op .v{font-size:17px}}
 @media (prefers-reduced-motion:no-preference){.btn,.cbtn{transition:filter .2s}}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -198,9 +213,39 @@ footer a{color:var(--muted)}
   <h2 class="xl" style="font-size:clamp(36px,5vw,60px)">품목, 수량, 납기.<br>이 세 가지만 보내주세요.</h2>
   <p class="sub">Item, quantity, target date — that's enough to start. English is fine.</p>
   <p class="lead">영업일 5일 안에 원가를 보고 되는지 안 되는지 답 드립니다. 여기까지는 비용이 없습니다.</p>
-  <div class="grid contact-grid" style="grid-template-columns:repeat(1,minmax(0,1fr))"><a class="cbtn primary" href="mailto:jayjune99@wearlab.kr">jayjune99@wearlab.kr<small>Email</small></a></div>
+  <form class="inq" id="inq" autocomplete="on" novalidate>
+    <label>회사 · 브랜드 <span class="mono">Company</span><input id="f-company" name="company" placeholder="브랜드명 (선택)"></label>
+    <label>이름 <span class="mono">Name *</span><input id="f-name" name="name" required placeholder="담당자 이름"></label>
+    <label class="full">연락처 <span class="mono">Email or phone *</span><input id="f-contact" name="contact" required placeholder="답 드릴 이메일 또는 전화번호"></label>
+    <label>품목 <span class="mono">Item</span><input id="f-item" name="item" placeholder="예: 슬랙스, 반팔 니트"></label>
+    <label>수량 <span class="mono">Quantity</span><input id="f-qty" name="qty" placeholder="예: 300장 · 3컬러"></label>
+    <label class="full">희망 납기 <span class="mono">Target date</span><input id="f-due" name="due" placeholder="예: 11월 말"></label>
+    <label class="full">내용 <span class="mono">Message</span><textarea id="f-message" name="message" placeholder="레퍼런스 링크, 판매가, 그 외 알려주실 것"></textarea></label>
+    <label class="hp" aria-hidden="true">website<input id="f-website" name="website" tabindex="-1" autocomplete="off"></label>
+    <button type="submit" id="f-send">문의 보내기 · Send</button>
+    <p class="msg" id="f-msg">보내시면 바로 저희 휴대폰으로 알림이 옵니다. 이메일은 공개하지 않습니다.</p>
+  </form>
+  <div class="done" id="inq-done"><b>접수됐습니다.</b><span>영업일 5일 안에 적어주신 연락처로 답 드리겠습니다.</span><span class="muted">Received — we'll get back to you within 5 business days.</span></div>
   <p class="note">옷 말고 다른 수출입 대행도 문의 주셔도 됩니다 · Trade and sourcing outside apparel? Just ask.</p>
 </div></section>
+<script>
+(function(){
+  var URL='https://exbugkgaevbirjonlvlb.supabase.co', KEY='sb_publishable_vg2q-GmYwxVshUeOcji-Dg_gu5h67hk';
+  var f=document.getElementById('inq'), msg=document.getElementById('f-msg'), btn=document.getElementById('f-send');
+  if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault();
+    var v=function(id){ return (document.getElementById(id).value||'').trim(); };
+    if(v('f-website')) return;                       // 봇
+    if(!v('f-name')||!v('f-contact')){ msg.textContent='이름과 연락처는 꼭 적어주세요.'; msg.className='msg err'; return; }
+    btn.disabled=true; msg.textContent='보내는 중…'; msg.className='msg';
+    var body={company:v('f-company')||null,name:v('f-name'),contact:v('f-contact'),item:v('f-item')||null,qty:v('f-qty')||null,due:v('f-due')||null,message:v('f-message')||null,lang:(navigator.language||'').slice(0,2),ua:navigator.userAgent.slice(0,200)};
+    fetch(URL+'/rest/v1/inquiries',{method:'POST',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify(body)})
+      .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); f.style.display='none'; var d=document.getElementById('inq-done'); d.style.display='flex'; d.scrollIntoView({behavior:'smooth',block:'center'}); })
+      .catch(function(err){ btn.disabled=false; msg.textContent='전송이 안 됐습니다. 잠시 후 다시 시도하거나 jayjune99@wearlab.kr 로 보내주세요. ('+err.message+')'; msg.className='msg err'; });
+  });
+})();
+</script>
 
 <section><div class="wrap center">
   <div class="eyebrow mono">Who it's for</div>
@@ -364,7 +409,7 @@ footer a{color:var(--muted)}
 <section style="padding-block:clamp(56px,7vw,88px)"><div class="wrap center">
   <h2 style="font-size:clamp(28px,3.6vw,40px)">문의는 언제든 여기로.</h2>
   <p class="sub" style="font-size:clamp(17px,1.8vw,21px)">품목, 수량, 납기만 적어 보내주시면 영업일 5일 안에 답 드립니다.</p>
-  <div class="ctas"><a class="btn" href="mailto:jayjune99@wearlab.kr">jayjune99@wearlab.kr</a><a class="more" href="#contact">문의 안내 다시 보기 ›</a></div>
+  <div class="ctas"><a class="btn" href="#contact">문의 남기기 · Send an inquiry</a></div>
 </div></section>
 
 
